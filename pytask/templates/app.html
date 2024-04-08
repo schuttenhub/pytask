@@ -5,15 +5,39 @@ PyTask App
 {% endblock %}
 
 {% block content %}
-<h1>Hello World</h1><br>
+<div class="d-flex flex-column mx-5">
+    <h1>Todo List</h1>
 
-<h1>Todo List</h1>
-<ul>
-    {% for todo in todos %}
-        <li>{{ todo.description }} - Due by: {{ todo.due_date.strftime('%Y-%m-%d') }}</li>
-    {% else %}
-        <li>No todos found</li>
-    {% endfor %}
-</ul>
+    <div>
+        <table class="table my-3 mx-10">
+            <thead>
+                <tr>
+                    <th scope="col">Done?</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Due Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for todo in todos %}
+                <tr>
+                    <td><input type="checkbox" onclick="markTodoCompleted({{ todo.id }})"></td>
+                    <td>{{ todo.description }}</td>
+                    <td>{{ todo.due_date.strftime('%Y-%m-%d') }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="3">Everything is done :)</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button type="button" class="btn btn-warning" onclick="uncompleteAll();">
+            <i class="bi bi-arrow-counterclockwise"></i> Uncomplete All
+        </button>
+        
+    </div>
+</div>
+
+<script src="../static/js/todocomplete.js"></script>
 
 {% endblock %}
