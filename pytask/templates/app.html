@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}
+PyTask App
+{% endblock %}
+
+{% block content %}
+<h1>Hello World</h1><br>
+
+<h1>Todo List</h1>
+<ul>
+    {% for todo in todos %}
+        <li>{{ todo.description }} - Due by: {{ todo.due_date.strftime('%Y-%m-%d') }}</li>
+    {% else %}
+        <li>No todos found</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
