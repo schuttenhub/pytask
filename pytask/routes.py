@@ -3,7 +3,6 @@ from flask import render_template
 
 @app.route('/')
 def index():
-    todos = Todo.query.join(project).filter(Project.id == 1).all()
     return render_template('app.html', todos=todos)
 
 @app.route('/login')
