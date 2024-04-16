@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-PyTask App
+PyTask - App
 {% endblock %}
 
 {% block content %}
@@ -20,9 +20,6 @@ PyTask App
             <tbody>
                 {% for todo in todos %}
                 <tr>
-                    <td><input type="checkbox" onclick="markTodoCompleted({{ todo.id }})"></td>
-                    <td>{{ todo.description }}</td>
-                    <td>{{ todo.due_date.strftime('%Y-%m-%d') }}</td>
                 </tr>
                 {% else %}
                 <tr>
