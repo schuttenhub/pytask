@@ -18,7 +18,6 @@ def tasks():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     print("login was called")
-
     if request.method == 'POST':
         username = request.form.get('Username')
         password = request.form.get('Password')
@@ -120,5 +119,3 @@ def logout():
     resp = redirect('/')
     resp.set_cookie('name', '', 0)
     return resp
-
-
