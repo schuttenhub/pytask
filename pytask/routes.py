@@ -16,11 +16,11 @@ def tasks():
     return render_template('tasks.html')
 
 @app.route('/login', methods=['GET', 'POST'])
-def login():
+def login_action():
     print("login was called")
     if request.method == 'POST':
-        username = request.form.get('Username')
-        password = request.form.get('Password')
+        username = request.form.get('username')
+        password = request.form.get('password')
         print("Here the Data!!!")
         print(username)
         print(password)
@@ -44,17 +44,14 @@ def login():
         result = db.session.execute(text(query_stmt))
 
         user = result.fetchall()
-        #print("debug1")
+        print(user)
         if not user:
             #flash(f"Try again", category='warning')
-            #print("debug2")
             return render_template('login.html')
-        #print("debug3")
         #flash(f"'{user}', you are logged in ", category='success')
-        #print("debug4")
-        return redirect(url_for('tickets_pages'))
-        #return render_template('tickets.html')
-
+        return redirect(url_for('tasks'))
+    else:
+        print("no post...")
     return render_template('login.html')
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -62,13 +59,13 @@ def register():
     if request.method == 'POST':
         print('Post')
 
-        username = request.form.get('Username')
-        email = request.form.get('Email')
-        password1 = request.form.get('Password1')
-        password2 = request.form.get('Password2')
+        email = request.form.get('email')
+        username = request.form.get('username')
+        password1 = request.form.get('password1')
+        password2 = request.form.get('password2')
 
-        print(username)
         print(email)
+        print(username)
         print(password1)
         print(password2)
 
@@ -94,7 +91,7 @@ def register():
             #flash("Password1 not valid", category='danger')
             return render_template('register.html')
 
-        query_stmt = f"select * from bugusers where username = '{username}'"
+        query_stmt = f"select * from user where username = '{username}'"
         print(query_stmt)
         result = db.session.execute(text(query_stmt))
         item = result.fetchone()
@@ -105,12 +102,12 @@ def register():
             print("Username exists")
             return render_template('register.html')
 
-        query_insert = f"insert into bugusers (username, email_address, password) values ('{username}', '{email}', '{password1}')"
+        query_insert = f"insert into user (username, password, email) values ('{username}', '{password1}', '{email}')"
         print(query_insert)
         db.session.execute(text(query_insert))
         db.session.commit()
         #flash("You are registered", category='success')
-        return redirect(url_for('tickets_pages'))
+        return redirect(url_for('tasks'))
 
     return render_template('register.html')
 
