@@ -31,7 +31,6 @@ def login_action():
 
         query_stmt = f"select username from user where username = '{username}' and password = '{password}'"
         result = db.session.execute(text(query_stmt))
-
         user = result.fetchall()
         if not user:
             return render_template('login.html')
