@@ -2,7 +2,7 @@
   <div class="container">
     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
       <a href="{{ url_for('index') }}" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-      <img src="../static/pictures/logo.png" alt="" style="height: 60px;">
+        <img src="../static/pictures/logo.png" alt="" style="height: 60px;">
       </a>
 
       <p class="nav col-12 col-lg-auto me-lg-auto mb-2 ml-5 justify-content-center mb-md-0">
@@ -10,13 +10,20 @@
       </p>
 
       <div class="text-end">
+        {% if logged_in == True %}
         <button type="button" class="btn btn-warning me-2" style="color: black;">
-          <a class="nav-link" href="{{ url_for('login_action') }}">Login</a>
+            <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+        </button>
+        {% else %}
+        <button type="button" class="btn btn-warning me-2" style="color: black;">
+            <a class="nav-link" href="{{ url_for('login_action') }}">Login</a>
         </button>
         <button type="button" class="btn btn-warning">
-          <a class="nav-link" href="{{ url_for('register') }}">Register</a>
+            <a class="nav-link" href="{{ url_for('register') }}">Register</a>
         </button>
-      </div>
+        {% endif %} 
+    </div>
+    
 
     </div>
   </div>

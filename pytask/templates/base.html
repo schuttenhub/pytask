@@ -23,7 +23,9 @@
 
   <div class="d-flex justify-content-start">
     {% block sidebar %}
-    {% include 'sidebar.html' %}
+    {% if logged_in %}
+      {% include 'sidebar.html' %}
+    {% endif %}
     {% endblock %}
     <div class="d-flex">
       {% block content %}
