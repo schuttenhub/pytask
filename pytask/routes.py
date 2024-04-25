@@ -8,7 +8,6 @@ def return_site(site_name):
     logged_in = True if request.cookies.get('user_name') else False
     resp = render_template(f'{site_name}', logged_in = logged_in)
     response = make_response(resp)
-    print("Login Status =", logged_in)
     return response
 
 @app.route('/')
@@ -17,22 +16,26 @@ def index():
 
 @app.route('/tasks')
 def tasks():
+    #Check if cookie
+    if not request.cookies.get('user_id'):
+        return redirect(url_for('login_action'))
+
     #get user_id 
     user_id = request.cookies.get('user_id')
+
     #get projects
-    query_projects = f"select * from project where id = '{user_id}'"
+    query_projects = f"select title from project where user_id = '{user_id}'"
     result_projects = db.session.execute(text(query_projects))
-    projects = result_projects.fetchall()
+    projects  = [item[0] for item in result_projects.fetchall()]
 
     # Jetzt Projekte in die sidebar packen
 
     # Dann Button machen, der neue Projekte in der Sidebar erstellen kann
 
-
     logged_in = True if request.cookies.get('user_name') else False
-    resp = render_template(f'{site_name}', logged_in = logged_in)
+    resp = render_template('tasks.html', logged_in = logged_in, projects = projects)
+    print(projects)
     response = make_response(resp)
-    print("Login Status =", logged_in)
     return response
 
 @app.route('/login', methods=['GET', 'POST'])
