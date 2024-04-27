@@ -23,17 +23,25 @@ def tasks():
     #get user_id 
     user_id = request.cookies.get('user_id')
 
+    # get project_id
+
     #get projects
     query_projects = f"select title from project where user_id = '{user_id}'"
     result_projects = db.session.execute(text(query_projects))
     projects  = [item[0] for item in result_projects.fetchall()]
+
+    # get todos
+    query_todo = f"SELECT is_completed, description, due_date from todo WHERE project_id=4"
+    result_todo = db.session.execute(text(query_todo))
+    todos = result_todo.fetchall()
+    print(todos)
 
     # Jetzt Projekte in die sidebar packen
 
     # Dann Button machen, der neue Projekte in der Sidebar erstellen kann
 
     logged_in = True if request.cookies.get('user_name') else False
-    resp = render_template('tasks.html', logged_in = logged_in, projects = projects)
+    resp = render_template('tasks.html', logged_in = logged_in, projects = projects, todos=todos)
     print(projects)
     response = make_response(resp)
     return response

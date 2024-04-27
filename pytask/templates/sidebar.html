@@ -8,7 +8,7 @@
   <p> + create Project</p>
   <ul class="nav nav-pills flex-column mb-auto">
     {% for project in projects %}
-    <li class="nav-item"><a href="#" class="nav-link link-body-emphasis">{{ project }}</a></li>
+    <li class="nav-item"><a href="{{ url_for('tasks', project_name=project) }}" class="nav-link link-body-emphasis">{{ project }}</a></li>
     {% endfor %}
   </ul>
 </div>
