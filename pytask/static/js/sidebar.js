@@ -18,6 +18,8 @@ document.addEventListener('DOMContentLoaded', function() {
         this.classList.add('active');
         this.setAttribute('aria-current', 'page');
         this.classList.remove('link-body-emphasis');
+
+        window.location.href = this.getAttribute('href');
       });
     });
   });

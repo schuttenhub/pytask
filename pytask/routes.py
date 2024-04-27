@@ -16,6 +16,8 @@ def index():
 
 @app.route('/tasks')
 def tasks():
+    projectname = request.args.get('projectname', 'public')
+    
     #Check if cookie
     if not request.cookies.get('user_id'):
         return redirect(url_for('login_action'))
@@ -24,27 +26,51 @@ def tasks():
     user_id = request.cookies.get('user_id')
 
     # get project_id
+    if projectname != 'public':
+        query_project_id = f"SELECT id FROM project WHERE title = '{projectname}'"
+        result_project_id = db.session.execute(text(query_project_id))
+        project_id = result_project_id.fetchall()[0][0]
+    else:
+        project_id = 99
 
     #get projects
     query_projects = f"select title from project where user_id = '{user_id}'"
     result_projects = db.session.execute(text(query_projects))
     projects  = [item[0] for item in result_projects.fetchall()]
+    projects.append('public')
 
     # get todos
-    query_todo = f"SELECT is_completed, description, due_date from todo WHERE project_id=4"
+    query_todo = f"SELECT is_completed, description, due_date from todo WHERE project_id = {project_id}"
     result_todo = db.session.execute(text(query_todo))
     todos = result_todo.fetchall()
-    print(todos)
 
     # Jetzt Projekte in die sidebar packen
 
     # Dann Button machen, der neue Projekte in der Sidebar erstellen kann
 
     logged_in = True if request.cookies.get('user_name') else False
-    resp = render_template('tasks.html', logged_in = logged_in, projects = projects, todos=todos)
-    print(projects)
+    resp = render_template('tasks.html', logged_in = logged_in, projects = projects, projectname = projectname, todos=todos)
     response = make_response(resp)
+    response.set_cookie('project_id', f'{project_id}')
+    response.set_cookie('projectname', f'{projectname}')
     return response
+
+@app.route('/addTask', methods=['POST'])
+def addTask():
+    description = request.form.get('description')
+    due_date = request.form.get('due_date')
+    project_id = request.cookies.get('project_id')
+    projectname = request.cookies.get('projectname')
+    
+    print('Description: ', description)
+    print('Due Date: ', due_date)
+    print('Project_ID: ', project_id)
+    
+    query_addTask = f"INSERT INTO todo (description, due_date, project_id, is_completed) VALUES ('{description}', '{due_date}', {project_id}, 0)"
+    db.session.execute(text(query_addTask))
+    db.session.commit()
+    
+    return redirect(url_for('tasks'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login_action():

@@ -4,23 +4,47 @@
 PyTask - App
 {% endblock %}
 
+{% block sidebar %}
+<div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 280px;">
+    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+        <svg class="bi pe-none me-2" width="40" height="32">
+            <use xlink:href="#bootstrap"></use>
+        </svg>
+        <span class="fs-4">Projekte</span>
+    </a>
+    <hr>
+    <p> + create Project</p>
+    <ul class="nav nav-pills flex-column mb-auto">
+        {% for project in projects %}
+        <li class="nav-item"><a href="{{ url_for('tasks', projectname=project) }}"
+                class="nav-link link-body-emphasis">{{ project }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+<script src="../static/js/sidebar.js"></script>
+{% endblock %}
+
+
 {% block content %}
 <div class="d-flex flex-column mx-5">
-    <h1>Todo List</h1>
+    <h1>{{ projectname }}</h1>
 
-    <div>
+    <div class="container">
         <table class="table my-3 mx-10">
             <thead>
                 <tr>
                     <th scope="col">Done?</th>
                     <th scope="col">Description</th>
                     <th scope="col">Due Date</th>
+                    {% if projectname == 'public' %}
+                        <th scope="col">User</th>
+                    {% endif %}
                 </tr>
             </thead>
             <tbody>
                 {% for todo in todos %}
                 <tr>
-                    <td>{{ todo[0] }}</td>
+
                     <td>{{ todo[1] }}</td>
                     <td>{{ todo[2] }}</td>
                 </tr>
@@ -29,12 +53,23 @@ PyTask - App
                     <td colspan="3">Everything is done :)</td>
                 </tr>
                 {% endfor %}
+                <tr>
+                    <form action="{{ url_for('addTask') }}" method="POST">
+                        <td>
+                            <input type="text" class="form-control" id="description" placeholder="Description" name="description">
+                        </td>
+                        <td>
+                                <input type="datetime-local" id="date" class="form-control" name="due_date">
+                                <script> const currentTime = new Date(); document.getElementById('roomfindr-time').value = currentTime.toISOString().slice(0, 16);</script>
+                        </td>
+                        <td><button type="submit" class="btn btn-primary">Add</button></td>
+                    </form>
+                </tr>
             </tbody>
         </table>
-        <button type="button" class="btn btn-warning" onclick="uncompleteAll();">
+        <button type="button" class="btn btn-warning" onclick="">
             <i class="bi bi-arrow-counterclockwise"></i> Uncomplete All
         </button>
-        
     </div>
 </div>
 
