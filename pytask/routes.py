@@ -91,6 +91,10 @@ def deleteTask():
 
     return redirect(url_for('tasks', projectname=projectname))
 
+#@app.route('/createProject')
+#def createProject():
+    
+
 @app.route('/login', methods=['GET', 'POST'])
 def login_action():
     if request.method == 'POST':

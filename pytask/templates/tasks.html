@@ -13,7 +13,7 @@ PyTask - App
         <span class="fs-4">Projekte</span>
     </a>
     <hr>
-    <button type="button" class="btn btn-success" onclick="">
+    <button type="button" class="btn btn-warning" onclick="">
         <i class="bi bi-arrow-counterclockwise"></i> Create Project
     </button>
     <ul class="nav nav-pills flex-column mb-auto">
@@ -67,14 +67,11 @@ PyTask - App
                             <input type="datetime-local" id="date" class="form-control" name="due_date">
                             <script> const currentTime = new Date(); document.getElementById('roomfindr-time').value = currentTime.toISOString().slice(0, 16);</script>
                         </td>
-                        <td><button type="submit" class="btn btn-success">Add</button></td>
+                        <td><button type="submit" class="btn btn-warning">Add</button></td>
                     </form>
                 </tr>
             </tbody>
         </table>
-        <button type="button" class="btn btn-danger" onclick="">
-            <i class="bi bi-arrow-counterclockwise"></i> Uncomplete All
-        </button>
     </div>
 </div>
 
