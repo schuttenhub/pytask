@@ -13,7 +13,9 @@ PyTask - App
         <span class="fs-4">Projekte</span>
     </a>
     <hr>
-    <p> + create Project</p>
+    <button type="button" class="btn btn-success" onclick="">
+        <i class="bi bi-arrow-counterclockwise"></i> Create Project
+    </button>
     <ul class="nav nav-pills flex-column mb-auto">
         {% for project in projects %}
         <li class="nav-item"><a href="{{ url_for('tasks', projectname=project) }}"
@@ -33,11 +35,10 @@ PyTask - App
         <table class="table my-3 mx-10">
             <thead>
                 <tr>
-                    <th scope="col">Done?</th>
                     <th scope="col">Description</th>
                     <th scope="col">Due Date</th>
                     {% if projectname == 'public' %}
-                        <th scope="col">User</th>
+                    <th scope="col">User</th>
                     {% endif %}
                 </tr>
             </thead>
@@ -47,6 +48,9 @@ PyTask - App
 
                     <td>{{ todo[1] }}</td>
                     <td>{{ todo[2] }}</td>
+                    <td><a href="{{ url_for('deleteTask', todo_id = todo[0]) }}"
+                            class=" btn btn-success container">close</a>
+                    </td>
                 </tr>
                 {% else %}
                 <tr>
@@ -56,23 +60,22 @@ PyTask - App
                 <tr>
                     <form action="{{ url_for('addTask') }}" method="POST">
                         <td>
-                            <input type="text" class="form-control" id="description" placeholder="Description" name="description">
+                            <input type="text" class="form-control" id="description" placeholder="Description"
+                                name="description">
                         </td>
                         <td>
-                                <input type="datetime-local" id="date" class="form-control" name="due_date">
-                                <script> const currentTime = new Date(); document.getElementById('roomfindr-time').value = currentTime.toISOString().slice(0, 16);</script>
+                            <input type="datetime-local" id="date" class="form-control" name="due_date">
+                            <script> const currentTime = new Date(); document.getElementById('roomfindr-time').value = currentTime.toISOString().slice(0, 16);</script>
                         </td>
-                        <td><button type="submit" class="btn btn-primary">Add</button></td>
+                        <td><button type="submit" class="btn btn-success">Add</button></td>
                     </form>
                 </tr>
             </tbody>
         </table>
-        <button type="button" class="btn btn-warning" onclick="">
+        <button type="button" class="btn btn-danger" onclick="">
             <i class="bi bi-arrow-counterclockwise"></i> Uncomplete All
         </button>
     </div>
 </div>
-
-<script src="../static/js/todocomplete.js"></script>
 
 {% endblock %}

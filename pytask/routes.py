@@ -16,11 +16,13 @@ def index():
 
 @app.route('/tasks')
 def tasks():
-    projectname = request.args.get('projectname', 'public')
-    
+
     #Check if cookie
     if not request.cookies.get('user_id'):
         return redirect(url_for('login_action'))
+
+    #get projectname --> set to public if fail
+    projectname = request.args.get('projectname') or request.cookies.get('projectname') or 'public'
 
     #get user_id 
     user_id = request.cookies.get('user_id')
@@ -40,13 +42,10 @@ def tasks():
     projects.append('public')
 
     # get todos
-    query_todo = f"SELECT is_completed, description, due_date from todo WHERE project_id = {project_id}"
+    query_todo = f"SELECT id, description, due_date from todo WHERE project_id = {project_id}"
     result_todo = db.session.execute(text(query_todo))
     todos = result_todo.fetchall()
 
-    # Jetzt Projekte in die sidebar packen
-
-    # Dann Button machen, der neue Projekte in der Sidebar erstellen kann
 
     logged_in = True if request.cookies.get('user_name') else False
     resp = render_template('tasks.html', logged_in = logged_in, projects = projects, projectname = projectname, todos=todos)
@@ -58,7 +57,11 @@ def tasks():
 @app.route('/addTask', methods=['POST'])
 def addTask():
     description = request.form.get('description')
+    if description == '':
+        return redirect(url_for('tasks'))
     due_date = request.form.get('due_date')
+    if due_date == '':
+        due_date = None
     project_id = request.cookies.get('project_id')
     projectname = request.cookies.get('projectname')
     
@@ -66,11 +69,27 @@ def addTask():
     print('Due Date: ', due_date)
     print('Project_ID: ', project_id)
     
-    query_addTask = f"INSERT INTO todo (description, due_date, project_id, is_completed) VALUES ('{description}', '{due_date}', {project_id}, 0)"
-    db.session.execute(text(query_addTask))
-    db.session.commit()
+    if due_date != None:
+        query_addTask = f"INSERT INTO todo (description, due_date, project_id, is_completed) VALUES ('{description}', '{due_date}', {project_id}, 0)"
+        db.session.execute(text(query_addTask))
+        db.session.commit()
+    else:
+        query_addTask = f"INSERT INTO todo (description, project_id) VALUES ('{description}', {project_id})"
+        db.session.execute(text(query_addTask))
+        db.session.commit()
+
+    return redirect(url_for('tasks', projectname=projectname))
+
+@app.route('/deleteTask')
+def deleteTask():
+    todo_id = request.args.get('todo_id')
+    projectname = request.cookies.get('projectname')
     
-    return redirect(url_for('tasks'))
+    query = f"DELETE FROM todo WHERE id = {todo_id}"
+    db.session.execute(text(query))
+    db.session.commit()
+
+    return redirect(url_for('tasks', projectname=projectname))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login_action():
