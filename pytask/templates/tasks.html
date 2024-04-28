@@ -48,9 +48,13 @@ PyTask - App
 
                     <td>{{ todo[1] }}</td>
                     <td>{{ todo[2] }}</td>
+                    {% if projectname == 'public' %}
+                    <td>{{ todo[3] }}</td>
+                    {% endif %}
                     <td><a href="{{ url_for('deleteTask', todo_id = todo[0]) }}"
                             class=" btn btn-success container">close</a>
                     </td>
+
                 </tr>
                 {% else %}
                 <tr>

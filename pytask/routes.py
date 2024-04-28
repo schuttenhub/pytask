@@ -42,7 +42,7 @@ def tasks():
     projects.append('public')
 
     # get todos
-    query_todo = f"SELECT id, description, due_date from todo WHERE project_id = {project_id}"
+    query_todo = f"SELECT id, description, due_date, author from todo WHERE project_id = {project_id}"
     result_todo = db.session.execute(text(query_todo))
     todos = result_todo.fetchall()
 
@@ -65,18 +65,23 @@ def addTask():
     project_id = request.cookies.get('project_id')
     projectname = request.cookies.get('projectname')
     
-    print('Description: ', description)
-    print('Due Date: ', due_date)
-    print('Project_ID: ', project_id)
-    
+    if project_id == "99":
+        query = f"SELECT username FROM user WHERE id = {request.cookies.get('user_id')}"
+        result = db.session.execute(text(query))
+        username = result.fetchone()[0]
+
     if due_date != None:
-        query_addTask = f"INSERT INTO todo (description, due_date, project_id, is_completed) VALUES ('{description}', '{due_date}', {project_id}, 0)"
-        db.session.execute(text(query_addTask))
-        db.session.commit()
+        if project_id == "99":
+            query_addTask = f"INSERT INTO todo (description, due_date, project_id, author) VALUES ('{description}', '{due_date}', {project_id}, '{username}')"
+        else:
+            query_addTask = f"INSERT INTO todo (description, due_date, project_id) VALUES ('{description}', '{due_date}', {project_id})"
     else:
-        query_addTask = f"INSERT INTO todo (description, project_id) VALUES ('{description}', {project_id})"
-        db.session.execute(text(query_addTask))
-        db.session.commit()
+        if project_id == "99":
+            query_addTask = f"INSERT INTO todo (description, project_id, author) VALUES ('{description}', {project_id}, '{username}')"
+        else:
+            query_addTask = f"INSERT INTO todo (description, project_id) VALUES ('{description}', {project_id})"
+    db.session.execute(text(query_addTask))
+    db.session.commit()
 
     return redirect(url_for('tasks', projectname=projectname))
 
@@ -161,7 +166,39 @@ def register():
 
 @app.route('/logout')
 def logout():
-    resp = redirect('/')
-    resp.set_cookie('user_name', '', 0)
-    resp.set_cookie('user_id', '', 0)
+    resp = make_response(redirect(url_for('login_action')))
+    resp.set_cookie('user_name', '', expires=0)
+    resp.set_cookie('user_id', '', expires=0)
     return resp
+
+
+# Injections:
+## Login:
+    # Beim username folgendes eingeben: ' OR id = 1; -- 
+    # Passwort mit mehr als 3 Zeichen befüllen und go :)
+    # Anmeldung erfolgt mit dem user, welcher die eingetragene ID hat
+
+## deleteTask:
+    # Sagen wir ich habe diesen Link: http://127.0.0.1:8099/deleteTask?todo_id=25
+    # Ich könnte das draus machen: http://127.0.0.1:8099/deleteTask?todo_id=1 OR description IS NOT NULL; -- 
+    
+    
+# Zum Todos wiederherstellen:
+#INSERT INTO todo (id, description, due_date, project_id, is_completed) VALUES (1, 'Build a Flask app', '2024-05-01 00:00:00', 1, 0);
+#INSERT INTO todo (id, description, due_date, project_id, is_completed) VALUES (2, 'Finalize project scope', '2024-04-15 00:00:00', 1, 0);
+#INSERT INTO todo (id, description, due_date, project_id, is_completed) VALUES (4, 'Implement authentication system', '2024-04-25 00:00:00', 1, 0);
+#INSERT INTO todo (id, description, due_date, project_id, is_completed) VALUES (5, 'Develop the user profile section', '2024-05-05 00:00:00', 1, 0);
+#INSERT INTO todo (id, description, due_date, project_id, is_completed) VALUES (6, 'Setup database backups', '2024-05-10 00:00:00', 1, 0);
+#INSERT INTO todo (id, description, due_date, project_id, is_completed) VALUES (7, 'Run user acceptance testing', '2024-05-15 00:00:00', 1, 0);
+#INSERT INTO todo (id, description, due_date, project_id, is_completed) VALUES (8, 'Deploy the application to production', '2024-05-20 00:00:00', 1, 0);
+#INSERT INTO todo (id, description, due_date, project_id, is_completed) VALUES (9, 'Conduct post-launch review meeting', '2024-05-25 00:00:00', 4, 0);
+#INSERT INTO todo (id, description, due_date, project_id, is_completed) VALUES (10, 'Salat', NULL, 3, 0);
+#INSERT INTO todo (id, description, due_date, project_id, is_completed) VALUES (16, 'asdasd', '2024-04-27 19:00:00', 3, 0);
+#INSERT INTO todo (id, description, due_date, project_id, is_completed) VALUES (18, 'test', NULL, 2, 0);
+#INSERT INTO todo (id, description, due_date, project_id, is_completed) VALUES (23, 'alio', NULL, 4, 0);
+#INSERT INTO todo (id, description, due_date, project_id, is_completed) VALUES (24, 'hehe', NULL, 99, 0);
+#INSERT INTO todo (id, description, due_date, project_id, is_completed) VALUES (25, 'hehe2', NULL, 99, 0);
+#INSERT INTO todo (id, description, due_date, project_id, is_completed) VALUES (26, 'testserfsdf', NULL, 3, 0);
+#INSERT INTO todo (id, description, due_date, project_id, is_completed) VALUES (27, 'sdfsdf', '2024-04-30 15:14:00', 3, 0);
+#INSERT INTO todo (id, description, due_date, project_id, is_completed) VALUES (28, 'asdasd', NULL, 4, 0);
+#INSERT INTO todo (id, description, due_date, project_id, is_completed) VALUES (29, 'asdasd', NULL, 2, 0);
