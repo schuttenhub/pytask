@@ -45,8 +45,7 @@ PyTask - App
             <tbody>
                 {% for todo in todos %}
                 <tr>
-
-                    <td>{{ todo[1] }}</td>
+                    <td>{{ todo[1]|safe }}</td>
                     <td>{{ todo[2] }}</td>
                     {% if projectname == 'public' %}
                     <td>{{ todo[3] }}</td>
@@ -54,8 +53,10 @@ PyTask - App
                     <td><a href="{{ url_for('deleteTask', todo_id = todo[0]) }}"
                             class=" btn btn-success container">close</a>
                     </td>
-
+                    <td>
+                    </td>
                 </tr>
+
                 {% else %}
                 <tr>
                     <td colspan="3">Everything is done :)</td>
