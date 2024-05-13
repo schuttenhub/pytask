@@ -37,26 +37,5 @@
   </div>
 
   <script src="../static/js/bootstrap.bundle.min.js"></script>
-  <script>
-    // Function to dynamically execute all script tags
-    function executeAllScripts() {
-        // Get all script tags on the page
-        var allScripts = document.querySelectorAll('script');
-
-        // Loop through each script tag and execute
-        allScripts.forEach(function (script) {
-            if (script.src) {
-                // If the script has a src attribute, create a new script element to load it
-                var newScript = document.createElement('script');
-                newScript.src = script.src;
-                document.body.appendChild(newScript);
-            } else {
-                // If it's inline JavaScript, use eval to run it
-                eval(script.innerHTML);
-            }
-        });
-    }
-  </script>
 </body>
-
 </html>
