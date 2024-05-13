@@ -160,4 +160,3 @@ def logout():
     session.clear()
     resp = make_response(redirect(url_for('login_action')))
     return resp
-
