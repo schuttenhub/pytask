@@ -45,7 +45,7 @@ PyTask - App
             <tbody>
                 {% for todo in todos %}
                 <tr>
-                    <td>{{ todo[1]|safe }}</td>
+                    <td>{{ todo[1] | safe }}</td>
                     <td>{{ todo[2] }}</td>
                     {% if projectname == 'public' %}
                     <td>{{ todo[3] }}</td>
