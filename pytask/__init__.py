@@ -12,10 +12,6 @@ app.secret_key = 'abcdef1234560000'
 
 db = SQLAlchemy(app)
 
-
-
-
-
 from pytask import routes
 
 
