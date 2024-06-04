@@ -1,3 +1,4 @@
 # Ignore directories
 **/chrome-linux64/
+**/chrome-win64/
 **/chrome-linux64.zip
