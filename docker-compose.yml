@@ -12,9 +12,9 @@ services:
     image: mysql:8.0.36
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: pytask
-      MYSQL_USER: chatdbuser
-      MYSQL_PASSWORD: Heute0000
+      MYSQL_DATABASE: pytaskdb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: p@ssw0rd
     volumes:
       - ./db:/var/lib/mysql
       - ./db-init.db:/docker-entrypoint-initdb.d/init.sql
