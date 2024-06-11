@@ -2,7 +2,7 @@ services:
   web:
     build: .
     ports:
-      - "8099:8099"
+      - "8066:8066"
     volumes:
       - "./src:/srv/app"
     environment:
@@ -17,4 +17,4 @@ services:
       MYSQL_PASSWORD: p@ssw0rd
     volumes:
       - ./db:/var/lib/mysql
-      - ./db-init.db:/docker-entrypoint-initdb.d/init.sql
+      - ./db-init.sql:/docker-entrypoint-initdb.d/init.sql

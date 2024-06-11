@@ -12,6 +12,6 @@ USER www-data
 COPY ./requirements.txt /tmp/requirements.txt
 RUN python3 -m pip install --disable-pip-version-check --no-cache-dir -r /tmp/requirements.txt
 
-EXPOSE 8099
+EXPOSE 8066
 
 CMD ["python3", "app.py"]
