@@ -7,6 +7,9 @@ services:
       - "./src:/srv/app"
     environment:
       FLASK_DEBUG: "true"
+      DATABASE_URL: "mysql+pymysql://root:root@db/pytaskdb" 
+    networks:
+      - pytask-backend
 
   db:
     image: mysql:8.0.36
@@ -14,7 +17,12 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: pytaskdb
       MYSQL_USER: user
-      MYSQL_PASSWORD: p@ssw0rd
+      MYSQL_PASSWORD: passw0rd
     volumes:
       - ./db:/var/lib/mysql
       - ./db-init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - pytask-backend
+
+networks:
+  pytask-backend:
