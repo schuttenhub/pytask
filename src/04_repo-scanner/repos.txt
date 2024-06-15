@@ -1,3 +1,0 @@
-https://github.com/schuttenhub/PyTask.git
-https://github.com/MoBeStudent/Zimon.git
-https://github.com/0xd1g1t/HackPythChatApp.git
