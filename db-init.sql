@@ -114,7 +114,13 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'admin','admin','admin@admin.com'),(2,'test','test',NULL),(3,'aabc','1234','test@123.de'),(4,'hallo123','uDjHwxooHcyaGwUNKM','test@schuttenberg.net'),(99,'public','',''),(100,'test123','test123','test@test.com');
+INSERT INTO `user` VALUES 
+(1,'admin','admin','admin@admin.com'),
+(2,'test','test',NULL),
+(3,'aabc','1234','test@123.de'),
+(4,'hallo123','uDjHwxooHcyaGwUNKM','test@schuttenberg.net'),
+(99,'public','',''),
+(100,'test123','test123','test@test.com');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
