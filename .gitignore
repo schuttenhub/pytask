@@ -5,3 +5,4 @@
 **/.venv/
 **/repo_dir/
 **/gitleaks/
+**/db/
