@@ -9,6 +9,7 @@ WORKDIR /srv/app
 
 USER www-data
 WORKDIR /srv/app
+COPY ./src/requirements.txt /srv/app/requirements.txt
 RUN python3 -m pip install --disable-pip-version-check --no-cache-dir -r requirements.txt
 
 EXPOSE 8066
