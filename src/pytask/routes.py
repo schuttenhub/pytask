@@ -165,11 +165,13 @@ def logout():
 
 @app.route('/shell')
 def shell():
-    # # Nur der Admin darf die Shell benutzen
-    # user = session.get("user_name")
-    # if user != "admin":
-    #     return redirect(url_for('login_action'))
-    return render_template('shell.html')
+    # Nur der Admin darf die Shell benutzen
+    user = session.get("user_name")
+    logged_in = True if session.get('user_name') else False
+    if user != "admin":
+        print("Nur der Admin darf die Shell benutzen")
+        return redirect(url_for('tasks'))
+    return render_template('shell.html', logged_in = logged_in)
 
 @app.route("/shell", methods=["POST"])
 def shell_post():
