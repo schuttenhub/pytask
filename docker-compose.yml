@@ -12,7 +12,7 @@ services:
       - pytask-backend
 
   db:
-    image: mysql:latest
+    image: mariadb:latest
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: pytaskdb
