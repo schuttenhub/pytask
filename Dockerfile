@@ -14,4 +14,4 @@ RUN python3 -m pip install --disable-pip-version-check --no-cache-dir -r /tmp/re
 
 EXPOSE 8066
 
-CMD ["python3", "app.py"]
+CMD ["python3", "app.py"] 

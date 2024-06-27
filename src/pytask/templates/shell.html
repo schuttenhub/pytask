@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Webshell Interface
+{% endblock %}
+
+
+{% block content %}
+<div class="container">
+    <h1>Execute Command</h1>
+    <form action="{{ url_for('shell') }}" method="POST">
+        <label for="commandInput" class="form-label">Command</label>
+        <div style="display: flex; flex-direction: row;">
+            <input type="text" class="form-control" id="commandInput" name="command" placeholder="Enter command here">
+            <button type="submit" class="btn btn-warning ms-1">Execute</button>
+            <button  id="cancel" type="text" class="btn btn-warning ms-1">clear</button>
+        </div>
+    </form>
+    <div class="mt-3">
+        <label for="outputArea" class="form-label">Output</label>
+    </div>
+    <textarea style="width: 1000px;" class="form-control" id="outputArea" rows="10" readonly>{{ output }}</textarea>
+</div>
+{% endblock %}

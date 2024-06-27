@@ -13,7 +13,10 @@
         {% if logged_in == True %}
         <button type="button" class="btn btn-warning me-2" style="color: black;">
           <a class="nav-link" href="{{ url_for('tasks') }}">Tasks</a>
-      </button>
+        </button>
+        <button type="button" class="btn btn-warning me-2" style="color: black;">
+          <a class="nav-link" href="{{ url_for('shell') }}">Web-Shell</a>
+        </button>
         <button type="button" class="btn btn-warning me-2" style="color: black;">
             <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
         </button>
@@ -25,6 +28,7 @@
             <a class="nav-link" href="{{ url_for('register') }}">Register</a>
         </button>
         {% endif %} 
+
     </div>
     
 

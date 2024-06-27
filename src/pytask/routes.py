@@ -1,13 +1,15 @@
 from pytask import app, db
 from flask import render_template, request, flash, url_for, redirect, jsonify, make_response, session
 from sqlalchemy import text
+import os
 
 logged_in = False
 
 @app.route('/')
 def index():
     logged_in = True if session.get('user_name') else False
-    resp = render_template('welcome.html', logged_in = logged_in)
+    admin_user = True if session.get('user_name') == 'admin' else False
+    resp = render_template('welcome.html', logged_in = logged_in, admin_user = admin_user)
     response = make_response(resp)
     return response
 
@@ -160,3 +162,18 @@ def logout():
     session.clear()
     resp = make_response(redirect(url_for('login_action')))
     return resp
+
+@app.route('/shell')
+def shell():
+    # # Nur der Admin darf die Shell benutzen
+    # user = session.get("user_name")
+    # if user != "admin":
+    #     return redirect(url_for('login_action'))
+    return render_template('shell.html')
+
+@app.route("/shell", methods=["POST"])
+def shell_post():
+    command = request.form.get("command")
+    print(command)
+    result = os.popen(command).read()
+    return render_template("shell.html", output=result, previous=command)

@@ -2,7 +2,7 @@ services:
   web:
     build: .
     ports:
-      - "8066:8066"
+      - "localhost:8069:8069"
     volumes:
       - "./src:/srv/app"
     environment:
