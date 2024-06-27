@@ -8,7 +8,7 @@ RUN chown www-data:www-data /srv/uploads
 WORKDIR /srv/app
 
 USER www-data
-
+RUN pwd
 RUN python3 -m pip install --disable-pip-version-check --no-cache-dir -r requirements.txt
 
 EXPOSE 8066
