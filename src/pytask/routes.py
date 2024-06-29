@@ -27,21 +27,21 @@ def tasks():
 
     # get project_id
     if projectname != 'public':
-        query_project_id = f"SELECT id FROM project WHERE title = '{projectname}'"
-        result_project_id = db.session.execute(text(query_project_id))
+        query_project_id = text("SELECT id FROM project WHERE title = :projectname")
+        result_project_id = db.session.execute(query_project_id, {'projectname': projectname})
         project_id = result_project_id.fetchall()[0][0]
     else:
         project_id = 99
 
     #get projects
-    query_projects = f"select title from project where user_id = '{user_id}'"
-    result_projects = db.session.execute(text(query_projects))
-    projects  = [item[0] for item in result_projects.fetchall()]
+    query_projects = text("SELECT title FROM project WHERE user_id = :user_id")
+    result_projects = db.session.execute(query_projects, {'user_id': user_id})
+    projects = [item[0] for item in result_projects.fetchall()]
     projects.append('public')
 
     # get todos
-    query_todo = f"SELECT id, description, due_date, author from todo WHERE project_id = {project_id}"
-    result_todo = db.session.execute(text(query_todo))
+    query_todo = text("SELECT id, description, due_date, author FROM todo WHERE project_id = :project_id")
+    result_todo = db.session.execute(query_todo, {'project_id': project_id})
     todos = result_todo.fetchall()
 
     logged_in = True if session.get('user_name') else False
@@ -63,21 +63,24 @@ def addTask():
     projectname = session.get('projectname')
     
     if project_id == "99":
-        query = f"SELECT username FROM user WHERE id = {session.get('user_id')}"
-        result = db.session.execute(text(query))
+        query = text("SELECT username FROM user WHERE id = :user_id")
+        result = db.session.execute(query, {'user_id': session.get('user_id')})
         username = result.fetchone()[0]
 
-    if due_date != None:
+    if due_date is not None:
         if project_id == "99":
-            query_addTask = f"INSERT INTO todo (description, due_date, project_id, author) VALUES ('{description}', '{due_date}', {project_id}, '{username}')"
+            query_addTask = text("INSERT INTO todo (description, due_date, project_id, author) VALUES (:description, :due_date, :project_id, :author)")
+            db.session.execute(query_addTask, {'description': description, 'due_date': due_date, 'project_id': project_id, 'author': username})
         else:
-            query_addTask = f"INSERT INTO todo (description, due_date, project_id) VALUES ('{description}', '{due_date}', {project_id})"
+            query_addTask = text("INSERT INTO todo (description, due_date, project_id) VALUES (:description, :due_date, :project_id)")
+            db.session.execute(query_addTask, {'description': description, 'due_date': due_date, 'project_id': project_id})
     else:
         if project_id == "99":
-            query_addTask = f"INSERT INTO todo (description, project_id, author) VALUES ('{description}', {project_id}, '{username}')"
+            query_addTask = text("INSERT INTO todo (description, project_id, author) VALUES (:description, :project_id, :author)")
+            db.session.execute(query_addTask, {'description': description, 'project_id': project_id, 'author': username})
         else:
-            query_addTask = f"INSERT INTO todo (description, project_id) VALUES ('{description}', {project_id})"
-    db.session.execute(text(query_addTask))
+            query_addTask = text("INSERT INTO todo (description, project_id) VALUES (:description, :project_id)")
+            db.session.execute(query_addTask, {'description': description, 'project_id': project_id})
     db.session.commit()
 
     return redirect(url_for('tasks', projectname=projectname))
@@ -87,8 +90,8 @@ def deleteTask():
     todo_id = request.args.get('todo_id')
     projectname = session.get('projectname')
     
-    query = f"DELETE FROM todo WHERE id = {todo_id}"
-    db.session.execute(text(query))
+    query = text("DELETE FROM todo WHERE id = :todo_id")
+    db.session.execute(query, {'todo_id': todo_id})
     db.session.commit()
 
     return redirect(url_for('tasks', projectname=projectname))
@@ -105,8 +108,8 @@ def login_action():
         if (password is None or isinstance(password, str) is False or len(password) < 3):
             return render_template('login.html')
         
-        query_stmt = f"select username, id from user where username = '{username}' and password = '{password}'"
-        result = db.session.execute(text(query_stmt))
+        query_stmt = text("SELECT username, id FROM user WHERE username = :username AND password = :password")
+        result = db.session.execute(query_stmt, {'username': username, 'password': password})
         user = result.fetchall()
 
         if not user:
@@ -143,16 +146,16 @@ def register():
             print("password1 not valid")
             return render_template('register.html')
 
-        query_stmt = f"select * from user where username = '{username}'"
-        result = db.session.execute(text(query_stmt))
+        query_stmt = text("SELECT * FROM user WHERE username = :username")
+        result = db.session.execute(query_stmt, {'username': username})
         item = result.fetchone()
 
         if item is not None:
             print("Username exists")
             return render_template('register.html')
 
-        query_insert = f"insert into user (username, password, email) values ('{username}', '{password1}', '{email}')"
-        db.session.execute(text(query_insert))
+        query_insert = text("INSERT INTO user (username, password, email) VALUES (:username, :password, :email)")
+        db.session.execute(query_insert, {'username': username, 'password': password1, 'email': email})
         db.session.commit()
         return redirect(url_for('tasks'))
     return render_template('register.html')
