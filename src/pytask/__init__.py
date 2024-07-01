@@ -3,7 +3,9 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import os
 import pymysql
-
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+from flask_wtf import CSRFProtect
 
 app = Flask(__name__)
 
@@ -15,5 +17,12 @@ app.secret_key = '3oXa26gmb4FrtrHQwsGBqBUs9Ht'
 
 db = SQLAlchemy(app)
 
+csrf = CSRFProtect(app)
+
+pytask_limiter = Limiter(
+    app = app,
+    key_func = get_remote_address,
+    default_limits = ["100 per day", "60 per hour"]
+)
 
 from pytask import routes

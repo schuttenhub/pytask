@@ -1,4 +1,4 @@
-from pytask import app, db
+from pytask import app, db, pytask_limiter
 from flask import render_template, request, flash, url_for, redirect, jsonify, make_response, session
 from sqlalchemy import text
 import os
@@ -97,6 +97,7 @@ def deleteTask():
     return redirect(url_for('tasks', projectname=projectname))
 
 @app.route('/login', methods=['GET', 'POST'])
+@pytask_limiter.limit("20 per minute")
 def login_action():
     if request.method == 'POST':
         username = request.form.get('username')
