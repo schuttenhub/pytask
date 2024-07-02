@@ -1,6 +1,7 @@
 from pytask import app, db, pytask_limiter
 from flask import render_template, request, flash, url_for, redirect, jsonify, make_response, session
 from sqlalchemy import text
+from pytask.forms import LoginForm
 import os
 
 logged_in = False
@@ -99,9 +100,10 @@ def deleteTask():
 @app.route('/login', methods=['GET', 'POST'])
 @pytask_limiter.limit("20 per minute")
 def login_action():
-    if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
+    form = LoginForm()
+    if form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data
 
         if (username is None or isinstance(username, str) is False or len(username) < 3):
             return render_template('login.html')
@@ -114,7 +116,7 @@ def login_action():
         user = result.fetchall()
 
         if not user:
-            return render_template('login.html', )
+            return render_template('login.html', form=form)
         user_id = user[0][1]
         response = make_response(redirect(url_for('tasks')))
         session['user_name'] = username
@@ -122,7 +124,7 @@ def login_action():
         return response
     
     #else Fall
-    return render_template('login.html')
+    return render_template('login.html', form=form)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -183,3 +185,4 @@ def shell_post():
     print(command)
     result = os.popen(command).read()
     return render_template("shell.html", output=result, previous=command)
+

@@ -13,7 +13,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'mysql+pymysql://root:root@db/pytaskdb') # --> NEW
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SESSION_COOKIE_HTTPONLY'] = False
-app.secret_key = '3oXa26gmb4FrtrHQwsGBqBUs9Ht'
+app.secret_key = 'passw0rd'
 
 db = SQLAlchemy(app)
 

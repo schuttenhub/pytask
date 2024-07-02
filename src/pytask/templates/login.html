@@ -2,20 +2,18 @@
 {% block title %}PyTask - Login{% endblock %}
 {% block content %}
 <main class="form-signin w-100 m-auto">
-  <form action="{{ url_for('login_action') }}" method="POST">
-    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+  <form action="{{ url_for('login_action') }}" method="post">
+    {{ form.hidden_tag() }}
     <h1 class="h3 mb-3 fw-normal">Please log in</h1>
     <div class="form-floating">
-      <input type="text" class="form-control" id="floatingInput" placeholder="username123" name="username">
-      <label for="floatingInput">username</label>
+      {{ form.username(class_="form-control", id="floatingInput", placeholder=" ") }}
+      {{ form.username.label(for="floatingInput") }}
     </div>
     <div class="form-floating">
-      <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password">
-      <label for="floatingPassword">Password</label>
+      {{ form.password(class_="form-control", id="floatingPassword", placeholder=" ") }}
+      {{ form.password.label(for="floatingPassword") }}
     </div>
-    <div class="form-check text-start my-3">
-    </div>
-    <button acti class="btn btn-primary w-100 py-2" type="submit">Login</button>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
   </form>
 </main>
 {% endblock %}

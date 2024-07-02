@@ -9,6 +9,7 @@ Webshell Interface
 <div class="container">
     <h1>Execute Command</h1>
     <form action="{{ url_for('shell') }}" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
         <label for="commandInput" class="form-label">Command</label>
         <div style="display: flex; flex-direction: row;">
             <input type="text" class="form-control" id="commandInput" name="command" placeholder="Enter command here">
